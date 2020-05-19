@@ -26,6 +26,17 @@ FLAGS = -g
 
 all: $(NAME)
 
+daemon: all
+	-sudo systemctl stop rubusd
+	sudo cp rubusd.service /etc/systemd/system/.
+	-sudo mkdir /usr/lib/rubusd
+	sudo cp rubusd /usr/lib/rubusd/.
+	sudo systemctl daemon-reload
+	sudo systemctl start rubusd
+
+check:
+	cppcheck *.c *.h
+
 run: all
 	./$(NAME)
 

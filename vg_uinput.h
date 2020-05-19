@@ -39,7 +39,7 @@ VGUIDevice* vg_ui_create(uint16_t vid, uint16_t pid, const char* name);
 VG_RESULT vg_ui_destroy(VGUIDevice* vg_ui);
 
 VG_RESULT vg_ui_button(uint16_t code, uint8_t val, VGUIDevice* vg_ui);
-VG_RESULT vg_ui_axis(uint16_t code, int16_t val, VGUIDevice* vg_ui);
+VG_RESULT vg_ui_axis(uint16_t code, int8_t val, VGUIDevice* vg_ui);
 VG_RESULT vg_ui_flush(VGUIDevice* vg_ui);
 
 

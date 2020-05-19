@@ -69,10 +69,10 @@ VGUIDevice* vg_ui_create(uint16_t vid, uint16_t pid, const char* name) {
 
 	struct uinput_abs_setup abs_config = {0};
 	abs_config.code = ABS_HAT0X;
-	abs_config.absinfo.minimum = INT16_MIN + 1;
-	abs_config.absinfo.maximum = INT16_MAX;
-	abs_config.absinfo.fuzz = 256;
-	abs_config.absinfo.flat = 2048;
+	abs_config.absinfo.minimum = INT8_MIN + 1;
+	abs_config.absinfo.maximum = INT8_MAX;
+	abs_config.absinfo.fuzz = 8;
+	abs_config.absinfo.flat = 16;
 	VG_UI_CREATE_IOCTL(vg_ui, UI_ABS_SETUP, &abs_config);
 	abs_config.code = ABS_HAT0Y;
 	VG_UI_CREATE_IOCTL(vg_ui, UI_ABS_SETUP, &abs_config);
@@ -111,7 +111,7 @@ VG_RESULT vg_ui_button(uint16_t code, uint8_t val, VGUIDevice* vg_ui) {
 	return VG_OK;
 }
 
-VG_RESULT vg_ui_axis(uint16_t code, int16_t val, VGUIDevice* vg_ui) {
+VG_RESULT vg_ui_axis(uint16_t code, int8_t val, VGUIDevice* vg_ui) {
 	ui_event.type = EV_ABS;
 	ui_event.code = code;
 	ui_event.value = val;

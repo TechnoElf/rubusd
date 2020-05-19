@@ -95,8 +95,8 @@ int main(int argc, char* argv[]) {
 					VG_EXPECT(vg_ui_button(BTN_EXTRA, joycon[i]->state.capture, vg_ui));
 					VG_EXPECT(vg_ui_button(BTN_THUMBL, joycon[i]->state.stick_l, vg_ui));
 
-					VG_EXPECT(vg_ui_axis(ABS_HAT0X, (int16_t) (joycon[i]->state.analog_l_x * INT16_MAX), vg_ui));
-					VG_EXPECT(vg_ui_axis(ABS_HAT0Y, (int16_t) (joycon[i]->state.analog_l_y * INT16_MAX), vg_ui));
+					VG_EXPECT(vg_ui_axis(ABS_HAT0X, (int16_t) (joycon[i]->state.analog_l_x * INT8_MAX), vg_ui));
+					VG_EXPECT(vg_ui_axis(ABS_HAT0Y, (int16_t) (joycon[i]->state.analog_l_y * INT8_MAX), vg_ui));
 				} else if (conf.target == 1) {
 					vg_usb_state.up = joycon[i]->state.up;
 					vg_usb_state.down = joycon[i]->state.down;
@@ -123,8 +123,8 @@ int main(int argc, char* argv[]) {
 					VG_EXPECT(vg_ui_button(BTN_MODE, joycon[i]->state.home, vg_ui));
 					VG_EXPECT(vg_ui_button(BTN_THUMBR, joycon[i]->state.stick_r, vg_ui));
 
-					VG_EXPECT(vg_ui_axis(ABS_HAT1X, (int16_t) (joycon[i]->state.analog_r_x * INT16_MAX), vg_ui));
-					VG_EXPECT(vg_ui_axis(ABS_HAT1Y, (int16_t) (joycon[i]->state.analog_r_y * INT16_MAX), vg_ui));
+					VG_EXPECT(vg_ui_axis(ABS_HAT1X, (int16_t) (joycon[i]->state.analog_r_x * INT8_MAX), vg_ui));
+					VG_EXPECT(vg_ui_axis(ABS_HAT1Y, (int16_t) (joycon[i]->state.analog_r_y * INT8_MAX), vg_ui));
 				} else if (conf.target == 1) {
 					vg_usb_state.a = joycon[i]->state.a;
 					vg_usb_state.b = joycon[i]->state.b;

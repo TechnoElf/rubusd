@@ -1,0 +1,11 @@
+[Unit]
+Description=rubusd - Joy-Con communication daemon
+Wants=bluetooth.target
+Before=bluetooth.target
+
+[Service]
+Type=exec
+ExecStart=/usr/lib/rubusd/rubusd -s --uinput
+
+[Install]
+WantedBy=multi-user.target
