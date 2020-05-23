@@ -155,8 +155,8 @@ typedef struct JoyConDevice {
 #define JC_OK 1
 #define JC_ERR 0
 
-#define JC_DEBUG_LOG(...) { printf("[DEBUG (JC)] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
-#define JC_ERROR_LOG(...) { printf("[ERROR (JC)] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
+#define JC_DEBUG_LOG(...) { printf("[\033[34mDEBUG (JC)\033[0m] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
+#define JC_ERROR_LOG(...) { printf("[\033[31mERROR (JC)\033[0m] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
 
 #define JC_UNWRAP(n, f) { n = f; if ((uintptr_t) n == JC_ERR) { JC_ERROR_LOG("Operation \"" #f "\" failed"); exit(1); } }
 #define JC_EXPECT(f) { JC_RESULT temp = (JC_RESULT) f; if (temp == JC_ERR) { JC_ERROR_LOG("Operation \"" #f "\" failed"); exit(1); } }

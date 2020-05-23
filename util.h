@@ -28,8 +28,8 @@
 
 #define DEBUG 1
 
-#define DEBUG_LOG(...) { printf("[DEBUG] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
-#define ERROR_LOG(...) { printf("[ERROR] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
+#define DEBUG_LOG(...) { printf("[\033[34mDEBUG\033[0m] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
+#define ERROR_LOG(...) { printf("[\033[31mERROR\033[0m] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
 
 #define UNWRAP(n, f) { n = f; if (n < 0) { ERROR_LOG("Operation \"" #f "\" failed"); exit(1); } }
 #define EXPECT(f) { int temp = f; if (temp < 0) { ERROR_LOG("Operation \"" #f "\" failed"); exit(1); } }

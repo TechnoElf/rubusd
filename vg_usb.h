@@ -25,7 +25,7 @@
 
 
 typedef struct VGUSBDevice {
-	int dev;
+	FILE* dev;
 } VGUSBDevice;
 
 typedef struct VGUSBPacket {

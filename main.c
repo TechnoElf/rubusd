@@ -141,16 +141,20 @@ int main(int argc, char* argv[]) {
 				} 
 			}
 		}
+		
+		if (joycon_count > 0) {
+			if (conf.target == 0) {
+				VG_EXPECT(vg_ui_flush(vg_ui));
+			} else if (conf.target == 1) {
+				VG_EXPECT(vg_usb_send(vg_usb_state, vg_usb));
+			}
 
-		if (conf.target == 0) {
-			VG_EXPECT(vg_ui_flush(vg_ui));
-		} else if (conf.target == 1) {
-			VG_EXPECT(vg_usb_send(vg_usb_state, vg_usb));
-		} 
-
-		connect_timeout++;
-		if (connect_timeout > 300) {
-			connect_timeout = 0;
+			connect_timeout++;
+			if (connect_timeout > 300) {
+				connect_timeout = 0;
+				dev_list_connect_new();
+			}
+		} else {
 			dev_list_connect_new();
 		}
 	}
@@ -194,6 +198,8 @@ RubusdConf parse_args(int argc, char* argv[]) {
 			conf.target = 1;
 		} else if (strcmp(argv[i], "--silent") == 0 || strcmp(argv[i], "-s") == 0) {
 			conf.silent = 1;
+		} else {
+			ERROR_LOG("Argument \"%s\" not recognised", argv[i]);
 		}
 	}
 

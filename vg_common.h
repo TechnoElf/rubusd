@@ -29,8 +29,8 @@
 #define VG_OK 1
 #define VG_ERR 0
 
-#define VG_DEBUG_LOG(...) { printf("[DEBUG (VG)] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
-#define VG_ERROR_LOG(...) { printf("[ERROR (VG)] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
+#define VG_DEBUG_LOG(...) { printf("[\033[34mDEBUG (VG)\033[0m] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
+#define VG_ERROR_LOG(...) { printf("[\033[31mERROR (VG)\033[0m] (%s:%d): ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); }
 
 #define VG_UNWRAP(n, f) { n = f; if ((uintptr_t) n == VG_ERR) { VG_ERROR_LOG("Operation \"" #f "\" failed"); exit(1); } }
 #define VG_EXPECT(f) { VG_RESULT temp = (VG_RESULT) f; if (temp == VG_ERR) { VG_ERROR_LOG("Operation \"" #f "\" failed"); exit(1); } }

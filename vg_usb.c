@@ -26,8 +26,8 @@
 
 VGUSBDevice* vg_usb_create() {
 	VGUSBDevice* vg_usb = calloc(1, sizeof(VGUSBDevice));
-	vg_usb->dev = open("/dev/hidg0", O_WRONLY | O_NONBLOCK);
-	if (vg_usb->dev < 0) {
+	vg_usb->dev = fopen("/dev/hidg0", "w");
+	if (vg_usb->dev == VG_ERR) {
 		VG_ERROR_LOG("Failed to open /dev/hidg0");
 		free(vg_usb);
 		return VG_ERR;
@@ -37,14 +37,15 @@ VGUSBDevice* vg_usb_create() {
 }
 
 VG_RESULT vg_usb_destroy(VGUSBDevice* vg_usb) {
-	close(vg_usb->dev);
+	fclose(vg_usb->dev);
 	free(vg_usb);
 	return VG_OK;
 }
 
 
 VG_RESULT vg_usb_send(VGUSBPacket packet, VGUSBDevice* vg_usb) {
-	if (write(vg_usb->dev, &packet, sizeof(VGUSBPacket))) {
+	if (fwrite(&packet, sizeof(VGUSBPacket), 1, vg_usb->dev) == VG_ERR) {
+		VG_ERROR_LOG("Failed to write packet to usb device file");
 		return VG_ERR;
 	}
 	return VG_OK;
