@@ -44,9 +44,10 @@ VG_RESULT vg_usb_destroy(VGUSBDevice* vg_usb) {
 
 
 VG_RESULT vg_usb_send(VGUSBPacket packet, VGUSBDevice* vg_usb) {
-	if (fwrite(&packet, sizeof(VGUSBPacket), 1, vg_usb->dev) == VG_ERR) {
+	if (fwrite(&packet, 1, sizeof(VGUSBPacket), vg_usb->dev) != sizeof(VGUSBPacket)) {
 		VG_ERROR_LOG("Failed to write packet to usb device file");
 		return VG_ERR;
 	}
+	fflush(vg_usb->dev);
 	return VG_OK;
 }
