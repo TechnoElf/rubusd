@@ -228,11 +228,15 @@ JC_RESULT jc_apply_input_packet(uint8_t* buf, JoyConDevice* con) {
 			uint16_t uncal_r_y = (in->analog_right_shared >> 4) | (in->analog_right_vt << 4);
 			uint16_t uncal_l_x = in->analog_left_hz | ((in->analog_left_shared & 0xf) << 8);
 			uint16_t uncal_l_y = (in->analog_left_shared >> 4) | (in->analog_left_vt << 4);
-
-			con->state.analog_r_x = fmin(fmax((float) uncal_r_x - (float) con->analog_r_cal.x_min, 0.0f) / ((float) con->analog_r_cal.x_max - (float) con->analog_r_cal.x_min), 1.0f) * 2.0f - 1.0f;
-			con->state.analog_r_y = fmin(fmax((float) uncal_r_y - (float) con->analog_r_cal.y_min, 0.0f) / ((float) con->analog_r_cal.y_max - (float) con->analog_r_cal.y_min), 1.0f) * 2.0f - 1.0f;
-			con->state.analog_l_x = fmin(fmax((float) uncal_l_x - (float) con->analog_l_cal.x_min, 0.0f) / ((float) con->analog_l_cal.x_max - (float) con->analog_l_cal.x_min), 1.0f) * 2.0f - 1.0f;
-			con->state.analog_l_y = fmin(fmax((float) uncal_l_y - (float) con->analog_l_cal.y_min, 0.0f) / ((float) con->analog_l_cal.y_max - (float) con->analog_l_cal.y_min), 1.0f) * 2.0f - 1.0f;
+			
+			if (uncal_r_x != 0 && uncal_r_y != 0) {
+				con->state.analog_r_x = fmin(fmax((float) uncal_r_x - (float) con->analog_r_cal.x_min, 0.0f) / ((float) con->analog_r_cal.x_max - (float) con->analog_r_cal.x_min), 1.0f) * 2.0f - 1.0f;
+				con->state.analog_r_y = fmin(fmax((float) uncal_r_y - (float) con->analog_r_cal.y_min, 0.0f) / ((float) con->analog_r_cal.y_max - (float) con->analog_r_cal.y_min), 1.0f) * 2.0f - 1.0f;
+			}
+			if (uncal_l_x != 0 && uncal_l_y != 0) {
+				con->state.analog_l_x = fmin(fmax((float) uncal_l_x - (float) con->analog_l_cal.x_min, 0.0f) / ((float) con->analog_l_cal.x_max - (float) con->analog_l_cal.x_min), 1.0f) * 2.0f - 1.0f;
+				con->state.analog_l_y = fmin(fmax((float) uncal_l_y - (float) con->analog_l_cal.y_min, 0.0f) / ((float) con->analog_l_cal.y_max - (float) con->analog_l_cal.y_min), 1.0f) * 2.0f - 1.0f;
+			}
 
 			break;
 		}

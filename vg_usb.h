@@ -57,7 +57,7 @@ typedef struct VGUSBPacket {
 VGUSBDevice* vg_usb_create();
 VG_RESULT vg_usb_destroy(VGUSBDevice* vg_usb);
 
-VG_RESULT vg_usb_send(VGUSBPacket packet, VGUSBDevice* vg_usb);
+VG_RESULT vg_usb_send(VGUSBPacket* packet, VGUSBDevice* vg_usb);
 
 
 #endif

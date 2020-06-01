@@ -149,7 +149,7 @@ int main(int argc, char* argv[]) {
 			} else if (conf.target == 1) {
 				if (usb_timeout >= 1) {
 					usb_timeout = 0;
-					VG_EXPECT(vg_usb_send(vg_usb_state, vg_usb));
+					VG_EXPECT(vg_usb_send(&vg_usb_state, vg_usb));
 				} else {
 					usb_timeout++;
 				}
