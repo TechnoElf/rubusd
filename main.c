@@ -51,6 +51,7 @@ VGUSBDevice* vg_usb = 0;
 VGUSBPacket vg_usb_state = {0};
 
 uint16_t connect_timeout = 0;
+uint16_t usb_timeout = 0;
 
 RubusdConf conf = {0};
 
@@ -109,7 +110,7 @@ int main(int argc, char* argv[]) {
 					vg_usb_state.stick_l = joycon[i]->state.stick_l;
 
 					vg_usb_state.analog_l_x = (int8_t) (joycon[i]->state.analog_l_x * INT8_MAX);
-					vg_usb_state.analog_l_y = (int8_t) (joycon[i]->state.analog_l_y * INT8_MAX);
+					vg_usb_state.analog_l_y = (int8_t) -(joycon[i]->state.analog_l_y * INT8_MAX);
 				} 
 			} else if (joycon[i]->type == JoyConRight) {
 				if (conf.target == 0) {
@@ -137,7 +138,7 @@ int main(int argc, char* argv[]) {
 					vg_usb_state.stick_r = joycon[i]->state.stick_r;
 
 					vg_usb_state.analog_r_x = (int8_t) (joycon[i]->state.analog_r_x * INT8_MAX);
-					vg_usb_state.analog_r_y = (int8_t) (joycon[i]->state.analog_r_y * INT8_MAX);
+					vg_usb_state.analog_r_y = (int8_t) -(joycon[i]->state.analog_r_y * INT8_MAX);
 				} 
 			}
 		}
@@ -146,13 +147,19 @@ int main(int argc, char* argv[]) {
 			if (conf.target == 0) {
 				VG_EXPECT(vg_ui_flush(vg_ui));
 			} else if (conf.target == 1) {
-				VG_EXPECT(vg_usb_send(vg_usb_state, vg_usb));
+				if (usb_timeout >= 1) {
+					usb_timeout = 0;
+					VG_EXPECT(vg_usb_send(vg_usb_state, vg_usb));
+				} else {
+					usb_timeout++;
+				}
 			}
 
-			connect_timeout++;
-			if (connect_timeout > 300) {
+			if (connect_timeout >= 300) {
 				connect_timeout = 0;
 				dev_list_connect_new();
+			} else {
+				connect_timeout++;
 			}
 		} else {
 			dev_list_connect_new();

@@ -25,7 +25,7 @@ echo 0 > functions/hid.usb0/protocol
 echo 0 > functions/hid.usb0/subclass
 echo 3 > functions/hid.usb0/report_length
 
-echo "05010904A1010509190129181500250175019518050181021581257F0901A1000930093109320933750895048102C0C0" | xxd -r -ps > functions/hid.usb0/report_desc
+echo "05010904A10105091901291215002501750195128102750195068103050109011581257FA1000930093109320933750895048102C0C0" | xxd -r -ps > functions/hid.usb0/report_desc
 
 mkdir configs/c.1
 mkdir configs/c.1/strings/0x409
