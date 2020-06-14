@@ -76,11 +76,14 @@ int main(int argc, char* argv[]) {
 
 	while (1) {
 		for (uint8_t i = 0; i < joycon_count; i++) {
-			if (jc_wait_for_input(joycon[i], 100) == JC_ERR) {
+			if (jc_input_maybe(joycon[i]) == JC_ERR) {
 				if (conf.silent == 0) {
 					DEBUG_LOG("Joy-Con with address %08x disconnected", joycon[i]->address);
 				}
 				dev_list_remove(i);
+
+				vg_usb_state = (const VGUSBPacket) { 0 };
+
 				continue;
 			}
 
@@ -243,7 +246,12 @@ void dev_list_connect_new() {
 			
 			uint8_t next = joycon_count;
 
-			JC_UNWRAP(joycon[next], jc_create(cur_dev->path, address));
+			joycon[next] = jc_create(cur_dev->path, address);
+			if (joycon[next] == 0) {
+				ERROR_LOG("Failed to connect to Joy-Con at %ls", cur_dev->serial_number);
+				cur_dev = cur_dev->next;
+				continue;
+			}
 			JC_EXPECT(jc_calibrate(joycon[next]));
 			JC_EXPECT(jc_set_player_lights(next + 1, joycon[next]));
 			JC_EXPECT(jc_set_input_mode(JC_INPUT_MODE_FULL, joycon[next]));

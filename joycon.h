@@ -24,6 +24,7 @@
 #include "hidapi.h"
 #include <stdint.h>
 #include <stdio.h>
+#include <time.h>
 
 
 #define JC_BT_VENDOR 0x057e
@@ -144,6 +145,7 @@ typedef enum JoyConType { JoyConLeft, JoyConRight, JoyConPro } JoyConType;
 typedef struct JoyConDevice {
 	hid_device* dev;
 	uint32_t address;
+	time_t last_seen;
 	JoyConType type;
 	JoyConState state;
 	JoyConAnalogCal analog_l_cal;
@@ -181,6 +183,7 @@ JC_RESULT jc_set_input_mode(uint8_t mode, JoyConDevice* con);
 JC_RESULT jc_set_player_lights(uint8_t state, JoyConDevice* con);
 
 JC_RESULT jc_wait_for_input(JoyConDevice* con, uint16_t timeout);
+JC_RESULT jc_input_maybe(JoyConDevice* con);
 
 
 #endif

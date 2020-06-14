@@ -250,3 +250,16 @@ JC_RESULT jc_wait_for_input(JoyConDevice* con, uint16_t timeout) {
 	JC_TRY(jc_apply_input_packet(jc_recv_buf, con));
 	return JC_OK;
 }
+
+JC_RESULT jc_input_maybe(JoyConDevice* con) {
+	JC_HID_TRY(hid_set_nonblocking(con->dev, 1));
+	if (hid_read(con->dev, jc_recv_buf, 13) > 0) {
+		con->last_seen = time(NULL);
+		JC_TRY(jc_apply_input_packet(jc_recv_buf, con));
+	} else {
+		if (con->last_seen != 0 && time(NULL) - con->last_seen >= 5) {
+			return JC_ERR;
+		}
+	}
+	return JC_OK;
+}
